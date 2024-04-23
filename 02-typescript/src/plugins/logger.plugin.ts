@@ -1,4 +1,4 @@
-const winston = require("winston");
+import winston from 'winston'
 
 const { combine, timestamp, prettyPrint , json } = winston.format;
 
@@ -28,21 +28,20 @@ const logger = winston.createLogger({
 });
 
 
-function buildLogger( service ){
+export function buildLogger( service:string ){
 
     return {
-        log: (message) => {
+        log: (message:string) => {
             // console.log('service');
             // console.log(service);
             logger.log( 'info', 
                 {
                     message, 
                     service,
-                    // at: new Date().toISOString()
                 }  
             )
         },
-        error: (message) => {
+        error:(message:string) => {
             // console.log('err');
             // console.log(service);
             logger.error( 'error', {message , service}  )
@@ -51,6 +50,6 @@ function buildLogger( service ){
 
 }
 
-module.exports = {
-    buildLogger
-}
+// export default {
+//     buildLogger
+// }

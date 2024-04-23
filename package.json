@@ -3,13 +3,5 @@
   "scripts": {
     "start": "node src/app.js",
     "dev": "nodemon src/app.js"
-  },
-  "devDependencies": {
-    "nodemon": "^3.1.0"
-  },
-  "dependencies": {
-    "get-age": "^1.0.1",
-    "uuid": "^9.0.1",
-    "winston": "^3.13.0"
   }
 }

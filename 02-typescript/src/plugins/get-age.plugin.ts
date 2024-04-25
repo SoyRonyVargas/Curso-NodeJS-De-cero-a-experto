@@ -1,19 +1,11 @@
 // import getAgeLib from 'get-age'
 
-const getAge = (birthdate:string) => {
-
-    console.log('desde adaptador');
+export const getAge = (birthdate:string) => {
 
     if( !birthdate ){
-        
         return null
-
     }
 
-    return new Date().getFullYear() - new Date(birthdate).getFullYear()
+    return (new Date().getFullYear() - new Date(birthdate).getFullYear())
 
-}
-
-module.exports = {
-    getAge
 }

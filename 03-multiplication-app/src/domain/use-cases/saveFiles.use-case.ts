@@ -44,8 +44,8 @@ export class SaveFile implements SaveFileUseCase {
         }
         catch(err)
         {
-            console.log('Error')
-            console.log(err)
+            // console.log('Error')
+            // console.log(err)
             return false
         }
 

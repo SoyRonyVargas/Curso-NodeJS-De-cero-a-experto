@@ -1,7 +1,5 @@
 import { ServerApp } from "./presentation/server.app";
-// import { handleCreateTable } from "./app.logic";
 import { argv } from "./plugins/argv.plugin";
-
 
 ( async () => {
 
@@ -11,8 +9,6 @@ import { argv } from "./plugins/argv.plugin";
 
 async function main() {
     
-    // handleCreateTable()
-
     ServerApp.run({
         base: argv.b,
         limit: argv.l,

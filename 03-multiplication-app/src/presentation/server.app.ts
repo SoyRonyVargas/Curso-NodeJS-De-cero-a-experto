@@ -1,7 +1,7 @@
 import { CreateTable } from "../domain/use-cases/createTable.use-case";
 import { SaveFile } from "../domain/use-cases/saveFiles.use-case";
 
-interface RunOptions {
+export interface RunOptions {
     destination: string
     show: boolean
     limit: number

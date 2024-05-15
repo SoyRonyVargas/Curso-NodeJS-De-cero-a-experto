@@ -5,6 +5,7 @@ export enum LogSeverityLevel {
 }
 
 export class LogEntity {
+    
     public createdAt: Date
     public message: string
     public level: string
@@ -16,5 +17,15 @@ export class LogEntity {
         this.message = message;
         this.level = level;
         this.createdAt = new Date()
+    }
+
+    static fromJSON(json:string) : LogEntity {
+        
+        const converted = JSON.parse(json)
+        
+        const log = new LogEntity( converted.message , converted.level )
+
+        return log
+
     }
 }

@@ -4,7 +4,7 @@
 Este proyecto es una aplicación de ejemplo que utiliza Node.js para crear un archivo utilizando el módulo fs.
 
 ## Instalación
-1. Clona este repositorio: `git clone <url_del_repositorio>`
+1. Clona este repositorio:
 2. Instala las dependencias: `npm install`
 
 ## Uso

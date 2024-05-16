@@ -1,5 +1,7 @@
 import { getEnvs } from '../../config/plugins/env.plugin'
 import { createTransport } from 'nodemailer'
+import { LogRepository } from '../../domain/repository/log.repository'
+import { LogEntity, LogSeverityLevel } from '../../domain/entity/log.entity'
 
 const envs = getEnvs()
 
@@ -25,19 +27,31 @@ export class EmailService {
         }
     })
 
+    constructor(
+        private readonly logRepository: LogRepository
+    ){
+
+    }
+
     async sendEmail( options:SendMailOptions ): Promise<boolean> {
 
         try 
         {
             
-            const isSend = await this.transporter.sendMail({
+            await this.transporter.sendMail({
                 attachments: options.attachment ?? [],
                 subject: options.subject,
                 html: options.htmlBody,
                 to: options.to,
             })
 
-            console.log(isSend);
+            // console.log(isSend);
+
+            this.logRepository.saveLog(new LogEntity({
+                level: LogSeverityLevel.medium,
+                message: `Email send to: ${options.to}`,
+                origin: __filename
+            }))
             
             return true
 
@@ -45,9 +59,14 @@ export class EmailService {
         catch (error) 
         {
             
-            console.log('error');
-            
+            console.log(`Email wasn't send: ${options.to}`);
             console.log(error);
+
+            this.logRepository.saveLog(new LogEntity({
+                level: LogSeverityLevel.high,
+                message: `Email wasn't send: ${options.to}`,
+                origin: __filename
+            }))
             
             return false
 

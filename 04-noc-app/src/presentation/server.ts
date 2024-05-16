@@ -6,7 +6,7 @@ import { EmailService } from "./email/email.service";
 
 
 const fileSystemDataSource = new FileSystemDataSource();
-const fileSystemRepository = new LogRepositoryImplementation(fileSystemDataSource);
+const fileSystemLogRepository = new LogRepositoryImplementation(fileSystemDataSource);
 
 export class Server {
 
@@ -20,10 +20,10 @@ export class Server {
         //     subject: 'Hola sexo',
         //     to: 'elfantasmax2146@gmail.com'
         // })
-        new EmailService()
-        .sendEmailWithLogs([
-            'elfantasmax2146@gmail.com'
-        ])
+        // new EmailService(fileSystemLogRepository)
+        // .sendEmailWithLogs([
+        //     'elfantasmax2146@gmail.com'
+        // ])
         
         TaskService.createTask(
             '*/5 * * * * *',
@@ -31,7 +31,7 @@ export class Server {
                 // new CheckService().execute('https://www.facebook.com')
                 const url = 'http://localhost:3000'
                 new CheckService(
-                    fileSystemRepository,
+                    fileSystemLogRepository,
                     () => console.log(`${ url } it ok`),
                     () => console.log('Error'),
                 ).execute(url)

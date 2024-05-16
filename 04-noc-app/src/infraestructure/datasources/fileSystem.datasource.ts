@@ -15,16 +15,30 @@ export class FileSystemDataSource implements LogDataSource {
 
     private createLogFiles(){
 
-        if( !fs.existsSync(this.logPath) )
+        const existeLogDir = fs.existsSync(this.logPath)
+        
+        if( !existeLogDir  )
         {
             fs.mkdirSync(this.logPath)    
         }
 
-        if( fs.existsSync(this.allLogsLowPath ) ) return 
-
-        fs.mkdirSync(this.allLogsLowPath)
-        fs.mkdirSync(this.allLogsMediumPath)
-        fs.mkdirSync(this.allLogsHighPath)
+        const existeAllLogsPath = fs.existsSync(this.allLogsLowPath )
+        
+        if( !existeAllLogsPath ){
+            fs.writeFileSync(this.allLogsLowPath, '')
+        }
+        
+        const existeAllLogsMediumPath = fs.existsSync(this.allLogsMediumPath)
+        
+        if( !existeAllLogsMediumPath ){
+            fs.writeFileSync(this.allLogsMediumPath, '')
+        } 
+        
+        const existeAllLogsHighPath = fs.existsSync(this.allLogsHighPath)
+        
+        if( !existeAllLogsHighPath ){
+            fs.writeFileSync(this.allLogsHighPath, '')
+        }
 
     }
     
@@ -63,10 +77,10 @@ export class FileSystemDataSource implements LogDataSource {
 
     async saveLog(newLog: LogEntity): Promise<void> {
         
-        const logJSON = `${JSON.stringify(newLog)}`
+        const logJSON = `${JSON.stringify(newLog)}\n`
 
         fs.appendFileSync(
-            this.logPath , 
+            this.allLogsLowPath , 
             logJSON
         )
 

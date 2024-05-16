@@ -2,6 +2,7 @@ import { FileSystemDataSource } from "../infraestructure/datasources/fileSystem.
 import { LogRepositoryImplementation } from "../infraestructure/repositories/log.repository";
 import { CheckService } from "../domain/use-cases/checks/check.service";
 import { TaskService } from "./cron/task.service";
+import { EmailService } from "./email/email.service";
 
 
 const fileSystemDataSource = new FileSystemDataSource();
@@ -12,6 +13,17 @@ export class Server {
     static start(){
         
         console.log("server start");
+
+        // new EmailService()
+        // .sendEmail({
+        //     htmlBody: '<h1>Hola</h1>',
+        //     subject: 'Hola sexo',
+        //     to: 'elfantasmax2146@gmail.com'
+        // })
+        new EmailService()
+        .sendEmailWithLogs([
+            'elfantasmax2146@gmail.com'
+        ])
         
         TaskService.createTask(
             '*/5 * * * * *',

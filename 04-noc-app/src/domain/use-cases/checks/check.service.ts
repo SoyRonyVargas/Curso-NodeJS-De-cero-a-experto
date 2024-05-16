@@ -27,7 +27,11 @@ export class CheckService implements CheckServiceUseCase {
             
             if( !req.ok ) throw `Error al hacer fetch`;
                         
-            const log = new LogEntity( `Service: ${url} working`, LogSeverityLevel.low )
+            const log = new LogEntity({
+                level:LogSeverityLevel.low ,
+                message: `Service: ${url} working`,
+                origin: __filename
+            })
             
             this.logRepository.saveLog(log)
             
@@ -39,7 +43,11 @@ export class CheckService implements CheckServiceUseCase {
             
             this.errorCallback(`${error}`);
             
-            const log = new LogEntity( `Error: ${error}`, LogSeverityLevel.high )
+            const log = new LogEntity({
+                message: `Error: ${error}`, 
+                level: LogSeverityLevel.high,
+                origin: __filename
+            })
             
             this.logRepository.saveLog(log)
             

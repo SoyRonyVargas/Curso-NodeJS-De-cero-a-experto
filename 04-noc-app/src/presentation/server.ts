@@ -2,13 +2,19 @@ import { FileSystemDataSource } from "../infraestructure/datasources/fileSystem.
 import { LogRepositoryImplementation } from "../infraestructure/repositories/log.repository";
 import { CheckService } from "../domain/use-cases/checks/check.service";
 import { TaskService } from "./cron/task.service";
+import { MongoLogDataSource } from "../infraestructure/datasources/mongo-log.datasource";
+import { LogSeverityLevel } from "../domain/entity/log.entity";
 
-const fileSystemDataSource = new FileSystemDataSource();
-const fileSystemLogRepository = new LogRepositoryImplementation(fileSystemDataSource);
+// const fileSystemDataSource = new FileSystemDataSource();
+
+const logRepository = new LogRepositoryImplementation(
+    // new FileSystemDataSource()
+    new MongoLogDataSource()
+);
 
 export class Server {
 
-    static start(){
+    static async start(){
         
         console.log("Server initialazed");
 
@@ -23,18 +29,22 @@ export class Server {
         //     'elfantasmax2146@gmail.com'
         // ])
         
-        TaskService.createTask(
-            '*/5 * * * * *',
-            () => {
-                // new CheckService().execute('https://www.facebook.com')
-                const url = 'http://localhost:3000/posts'
-                new CheckService(
-                    fileSystemLogRepository,
-                    () => console.log(`${ url } it's ok`),
-                    (err) => console.log(`Error: ${err}`),
-                ).execute(url)
-            }
-        )
+        // const logs = await logRepository.getLogs(LogSeverityLevel.low)
+
+        // console.log(logs);
+
+        // TaskService.createTask(
+        //     '*/5 * * * * *',
+        //     () => {
+        //         // new CheckService().execute('https://www.facebook.com')
+        //         const url = 'http://localhost:3000/posts'
+        //         new CheckService(
+        //             logRepository,
+        //             () => console.log(`${ url } it's ok`),
+        //             (err) => console.log(`Error: ${err}`),
+        //         ).execute(url)
+        //     }
+        // )
         
         // TaskService.createTask(
         //     '*/2 * * * * *',

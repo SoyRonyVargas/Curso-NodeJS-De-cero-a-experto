@@ -2,7 +2,7 @@ import { LogModel } from "./data/mongo/models/log.model"
 import { envs } from "./config/plugins/env.plugin"
 import { MongoDatabase } from "./data/mongo/init"
 // import { LogSeverityLevel } from "./domain/entity/log.entity"
-// import { Server } from "./presentation/server"
+import { Server } from "./presentation/server"
 
 ( async ()=> {
 
@@ -29,7 +29,7 @@ async function main(){
 
     // console.log(newLog);
 
-    // Server.start()
+    Server.start()
     
 }
 

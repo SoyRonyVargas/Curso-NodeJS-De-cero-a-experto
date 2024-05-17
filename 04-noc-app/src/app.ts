@@ -1,4 +1,5 @@
-import { LogModel } from "./data/mongo/models/log.model"
+// import { LogModel } from "./data/mongo/models/log.model"
+import { PrismaClient, SeveriityLevel } from "@prisma/client"
 import { envs } from "./config/plugins/env.plugin"
 import { MongoDatabase } from "./data/mongo/init"
 // import { LogSeverityLevel } from "./domain/entity/log.entity"
@@ -16,6 +17,24 @@ async function main(){
         dbName: envs.MONGO_DB_NAME,
         mongoUrl: envs.MONGO_URL
     })
+
+    const prisma = new PrismaClient()
+    
+    await prisma.logModel.create({
+        data: {
+            message: 'Mensaje desde prima',
+            level: SeveriityLevel.LOW,
+            origin: __filename,
+        }
+    })
+    
+    const logs = await prisma.logModel.findMany({
+        where: {
+            level: SeveriityLevel.LOW
+        }
+    })
+
+    console.log(logs);
 
     // const newLog = await LogModel.create({
     //     message: 'Mensaje desde app.ts',

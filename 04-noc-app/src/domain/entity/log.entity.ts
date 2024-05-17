@@ -6,6 +6,7 @@ export enum LogSeverityLevel {
 
 export type LogEntityOptions = {
     level: LogSeverityLevel   
+    createdAt?: Date
     message: string
     origin?: string
 }
@@ -22,13 +23,14 @@ export class LogEntity {
         const {
             level,
             message,
-            origin = 'log.entity.ts'
+            origin = 'log.entity.ts',
+            createdAt = new Date()
         } = options
         
         this.message = message;
         this.level = level;
-        this.createdAt = new Date()
         this.origin = origin
+        this.createdAt = createdAt
         
     }
 
@@ -45,4 +47,18 @@ export class LogEntity {
         return log
 
     }
+
+    static fromObject( object: { [key:string]: any } ) : LogEntity {
+
+        const log = new LogEntity({
+            level: object.level,
+            message: object.message,
+            origin: object.origin,
+            createdAt: object.createdAt,
+        })
+
+        return log
+
+    }
+    
 }

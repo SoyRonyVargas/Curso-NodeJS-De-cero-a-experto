@@ -5,3 +5,5 @@ coverage
 dist
 logs/
 .env
+mongo
+mongo/*

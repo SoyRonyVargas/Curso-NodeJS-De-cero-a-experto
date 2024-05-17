@@ -1,9 +1,7 @@
-import { getEnvs } from '../../config/plugins/env.plugin'
+import { envs } from '../../config/plugins/env.plugin'
 import { createTransport } from 'nodemailer'
 import { LogRepository } from '../../domain/repository/log.repository'
 import { LogEntity, LogSeverityLevel } from '../../domain/entity/log.entity'
-
-const envs = getEnvs()
 
 type SendMailOptions = {
     attachment?: ATTACHMENT[]

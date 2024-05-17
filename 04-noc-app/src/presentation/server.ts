@@ -2,8 +2,6 @@ import { FileSystemDataSource } from "../infraestructure/datasources/fileSystem.
 import { LogRepositoryImplementation } from "../infraestructure/repositories/log.repository";
 import { CheckService } from "../domain/use-cases/checks/check.service";
 import { TaskService } from "./cron/task.service";
-import { EmailService } from "./email/email.service";
-
 
 const fileSystemDataSource = new FileSystemDataSource();
 const fileSystemLogRepository = new LogRepositoryImplementation(fileSystemDataSource);
@@ -12,7 +10,7 @@ export class Server {
 
     static start(){
         
-        console.log("server start");
+        console.log("Server initialazed");
 
         // new EmailService()
         // .sendEmail({
@@ -29,11 +27,11 @@ export class Server {
             '*/5 * * * * *',
             () => {
                 // new CheckService().execute('https://www.facebook.com')
-                const url = 'http://localhost:3000'
+                const url = 'http://localhost:3000/posts'
                 new CheckService(
                     fileSystemLogRepository,
-                    () => console.log(`${ url } it ok`),
-                    () => console.log('Error'),
+                    () => console.log(`${ url } it's ok`),
+                    (err) => console.log(`Error: ${err}`),
                 ).execute(url)
             }
         )

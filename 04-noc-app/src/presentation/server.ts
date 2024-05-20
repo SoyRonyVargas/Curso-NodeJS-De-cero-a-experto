@@ -4,13 +4,26 @@ import { PostgresLogDataSource } from "../infraestructure/datasources/postgres.d
 import { MongoLogDataSource } from "../infraestructure/datasources/mongo-log.datasource";
 import { CheckService } from "../domain/use-cases/checks/check.service";
 import { TaskService } from "./cron/task.service";
+import { CheckMultipleService } from "../domain/use-cases/checks/checkMultiple.service";
 
 // import { LogSeverityLevel } from "../domain/entity/log.entity";
 
 // const fileSystemDataSource = new FileSystemDataSource();
 
-const logRepository = new LogRepositoryImplementation(
+const logPosgresRepository = new LogRepositoryImplementation(
     new PostgresLogDataSource()
+    // new FileSystemDataSource()
+    // new MongoLogDataSource()
+);
+
+const logFileSystemRepository = new LogRepositoryImplementation(
+    new FileSystemDataSource()
+    // new FileSystemDataSource()
+    // new MongoLogDataSource()
+);
+
+const logMongoRepository = new LogRepositoryImplementation(
+    new MongoLogDataSource()
     // new FileSystemDataSource()
     // new MongoLogDataSource()
 );
@@ -32,17 +45,16 @@ export class Server {
         //     'elfantasmax2146@gmail.com'
         // ])
         
-        // const logs = await logRepository.getLogs(LogSeverityLevel.low)
-
-        // console.log(logs);
-
         TaskService.createTask(
             '*/5 * * * * *',
             () => {
-                // new CheckService().execute('https://www.facebook.com')
                 const url = 'http://localhost:3000/posts'
-                new CheckService(
-                    logRepository,
+                new CheckMultipleService(
+                    [
+                        logFileSystemRepository,
+                        logPosgresRepository,
+                        logMongoRepository
+                    ],
                     () => console.log(`${ url } it's ok`),
                     (err) => console.log(`Error: ${err}`),
                 ).execute(url)

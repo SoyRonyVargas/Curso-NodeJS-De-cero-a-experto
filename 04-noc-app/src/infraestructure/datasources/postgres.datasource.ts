@@ -14,7 +14,7 @@ export class PostgresLogDataSource implements LogDataSource {
             }
         })
 
-        return logs
+        return logs.map( log => LogEntity.fromObject(log) )
 
     }
     

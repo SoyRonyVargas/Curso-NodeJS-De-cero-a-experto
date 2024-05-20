@@ -18,23 +18,23 @@ async function main(){
         mongoUrl: envs.MONGO_URL
     })
 
-    const prisma = new PrismaClient()
+    // const prisma = new PrismaClient()
     
-    await prisma.logModel.create({
-        data: {
-            message: 'Mensaje desde prima',
-            level: SeveriityLevel.LOW,
-            origin: __filename,
-        }
-    })
+    // await prisma.logModel.create({
+    //     data: {
+    //         message: 'Mensaje desde prima',
+    //         level: SeveriityLevel.LOW,
+    //         origin: __filename,
+    //     }
+    // })
     
-    const logs = await prisma.logModel.findMany({
-        where: {
-            level: SeveriityLevel.LOW
-        }
-    })
+    // const logs = await prisma.logModel.findMany({
+    //     where: {
+    //         level: SeveriityLevel.LOW
+    //     }
+    // })
 
-    console.log(logs);
+    // console.log(logs);
 
     // const newLog = await LogModel.create({
     //     message: 'Mensaje desde app.ts',

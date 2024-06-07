@@ -8,7 +8,7 @@ export class TodosController {
 
     public getTodos = async ( req: Request , res: Response ) => {
 
-        const todos = await prisma.user.findMany()
+        const todos = await prisma.todo.findMany()
 
         res.json({
             data: todos
@@ -24,7 +24,7 @@ export class TodosController {
             console.log(req.params.id);
             
 
-            const todo = await prisma.user.findFirst({
+            const todo = await prisma.todo.findFirst({
                 where: {
                     id: +req.params.id
                 }
@@ -50,7 +50,7 @@ export class TodosController {
 
         const { text } = req.body
 
-        const user = await prisma.user.create({
+        const user = await prisma.todo.create({
             data: {
                 text
             }
@@ -67,7 +67,7 @@ export class TodosController {
 
         const id = req.params.id
 
-        const todo = await prisma.user.findFirst({
+        const todo = await prisma.todo.findFirst({
             where: {
                 id: Number(id)
             }
@@ -79,7 +79,7 @@ export class TodosController {
 
         const { text } = req.body
 
-        const updatedTodo = await prisma.user.update({
+        const updatedTodo = await prisma.todo.update({
             data: {
                 text
             },
@@ -101,7 +101,7 @@ export class TodosController {
             
             const id = (+req.params.id)
 
-            const todo = await prisma.user.findFirst({
+            const todo = await prisma.todo.findFirst({
                 where: {
                     id
                 }
@@ -111,7 +111,7 @@ export class TodosController {
                 msg: 'No encontrado'
             })
 
-            const updatedTodo = await prisma.user.delete({
+            const updatedTodo = await prisma.todo.delete({
                 where: {
                     id
                 }

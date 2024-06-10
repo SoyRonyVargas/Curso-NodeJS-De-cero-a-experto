@@ -1,11 +1,10 @@
 
 
-export class CreateTodoDTO {
 
-    constructor(
-        public readonly text: string
-    ){
-
-    }
-
+export type UpdateTodoDTO = {
+    completedAt?: Date | null,
+    text: string
+    id: number
 }
+
+export type CreateTodoDTO = Pick<UpdateTodoDTO, 'completedAt' | 'text'>;

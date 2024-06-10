@@ -21,7 +21,7 @@ export class TodoEntity {
         
         if( !text ) throw 'Text is required'
         
-        if( !completedAt ) throw 'Text is required'
+        if( !completedAt ) throw 'completedAt is required'
 
         return new TodoEntity( id , text , completedAt )
 

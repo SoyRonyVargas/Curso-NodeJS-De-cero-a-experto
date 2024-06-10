@@ -7,11 +7,27 @@ export class TodoDataSourceImplementation implements TodoDataSource {
     
     async create(createTodoDTO: CreateTodoDTO): Promise<TodoEntity> {
         
-        const updatedTodo = await prisma.todo.create({
-            data: createTodoDTO
-        })
+        try 
+        {
+            
+            const created = await prisma.todo.create({
+                data: {
+                    text: createTodoDTO.text,
+                    completedAt: createTodoDTO.completedAt
+                }
+            })
+    
+            console.log('created');
+            console.log(created);
+    
+            return TodoEntity.fromObject(created)
 
-        return TodoEntity.fromObject(updatedTodo)
+        } 
+        catch (error) 
+        {
+            console.log(error);
+            return TodoEntity.fromObject({})
+        }
 
     }
     

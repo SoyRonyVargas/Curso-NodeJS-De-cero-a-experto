@@ -1,14 +1,17 @@
 import { Request, Response } from "express";
 import { prisma } from "../../data/postgres";
+import { TodoRepository } from "../../domain/repositories/todo.repository";
 
 
 export class TodosController {
 
-    constructor(){}
+    constructor(
+        private readonly todoRepository: TodoRepository
+    ){}
 
     public getTodos = async ( req: Request , res: Response ) => {
 
-        const todos = await prisma.todo.findMany()
+        const todos = await this.todoRepository.getAll()
 
         res.json({
             data: todos
@@ -20,15 +23,9 @@ export class TodosController {
 
         try {
             
-            console.log('por id');
-            console.log(req.params.id);
-            
+            const id = Number(req.params.id)
 
-            const todo = await prisma.todo.findFirst({
-                where: {
-                    id: +req.params.id
-                }
-            })
+            const todo = await this.todoRepository.findById(id)
     
             if( !todo ) return res.status(404).json({
                 msg: 'No encontrado'
@@ -48,44 +45,41 @@ export class TodosController {
 
     public createTodo = async ( req : Request , res: Response ) => {
 
-        const { text } = req.body
+        try 
+        {
+            
+            const { text, completedAt } = req.body
 
-        const user = await prisma.todo.create({
-            data: {
-                text
-            }
-        })
+            const user = await this.todoRepository.create({
+                text,
+                completedAt
+            })
+            
+            return res.json({
+                msg: 'Created',
+                data: user 
+            })
 
-        return res.json({
-            msg: 'Created',
-            data: user 
-        })
+        } 
+        catch (error) 
+        {
+            return res.json(error).status(500)    
+        }
 
     }
     
     public updateTodo = async ( req : Request , res: Response ) => {
 
-        const id = req.params.id
+        const id = Number(req.params.id)
 
-        const todo = await prisma.todo.findFirst({
-            where: {
-                id: Number(id)
-            }
-        })
+        const todo = await this.todoRepository.findById(id)
 
         if( !todo ) return res.status(404).json({
             msg: 'No encontrado'
         })
 
-        const { text } = req.body
-
-        const updatedTodo = await prisma.todo.update({
-            data: {
-                text
-            },
-            where: {
-                id: +id
-            }
+        const updatedTodo = await this.todoRepository.updateById({
+            ...req.body
         })
 
         return res.json({
@@ -101,21 +95,13 @@ export class TodosController {
             
             const id = (+req.params.id)
 
-            const todo = await prisma.todo.findFirst({
-                where: {
-                    id
-                }
-            })
+            const todo = await this.todoRepository.findById(id)
 
             if( !todo ) return res.status(404).json({
                 msg: 'No encontrado'
             })
 
-            const updatedTodo = await prisma.todo.delete({
-                where: {
-                    id
-                }
-            })
+            const updatedTodo = await this.todoRepository.deleteById(id)
 
             return res.json({
                 msg: 'ELIMINADO',
@@ -125,8 +111,7 @@ export class TodosController {
         } 
         catch (error) 
         {
-            console.log(error);
-            return res.status(501)
+            return res.status(500).json(error)
         }
 
     }

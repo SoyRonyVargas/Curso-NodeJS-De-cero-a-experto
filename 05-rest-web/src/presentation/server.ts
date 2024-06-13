@@ -7,7 +7,7 @@ interface Options {
 
 export class Server {
 
-    private app = express()
+    public app = express()
 
     async start( options: Options ){
         
@@ -30,6 +30,8 @@ export class Server {
             console.log(`http://localhost:${PORT}`);
 
         })
+
+        // return this.app
 
     }
 

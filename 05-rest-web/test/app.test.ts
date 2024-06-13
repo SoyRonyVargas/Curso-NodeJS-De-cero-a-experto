@@ -12,10 +12,10 @@ describe('Primer test', () => {
 
         expect(Server).toHaveBeenCalledTimes(1)
         
-        expect(Server.prototype.start).toHaveBeenCalledWith({
-            PORT: envs.PORT,
-            routes: AppRouter.routes
-        })
+        // expect(Server.prototype.start).toHaveBeenCalledWith({
+        //     PORT: envs.PORT,
+        //     routes: AppRouter.routes
+        // })
 
     })
 

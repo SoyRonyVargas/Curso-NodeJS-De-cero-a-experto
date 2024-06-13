@@ -35,7 +35,7 @@ export class TodoDataSourceImplementation implements TodoDataSource {
         
         const todos = await prisma.todo.findMany();
 
-        return todos.map( t => TodoEntity.fromObject(t) );
+        return todos as TodoEntity[] //.map( t => TodoEntity.fromObject(t) );
 
     }
 
@@ -49,7 +49,7 @@ export class TodoDataSourceImplementation implements TodoDataSource {
 
         if( !todo ) throw 'No encontrado'
 
-        return TodoEntity.fromObject(todo);
+        return todo as TodoEntity;
 
     }
 

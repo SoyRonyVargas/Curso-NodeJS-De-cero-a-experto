@@ -32,7 +32,7 @@ export class UserEntity {
         if (emailValidated === undefined) throw CustomError.badRequest('Missing emailValidated');
         if (!password) throw CustomError.badRequest('Missing password');
         if (!role) throw CustomError.badRequest('Missing role');
-        if (!img) throw CustomError.badRequest('Missing img');
+        // if (!img) throw CustomError.badRequest('Missing img');
 
         return new UserEntity(id || _id, name, email, emailValidated, password, role, img);
 

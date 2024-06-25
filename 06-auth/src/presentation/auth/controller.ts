@@ -1,5 +1,5 @@
 import { Request, Response } from "express"
-import { RegisterUserDTO } from "../../domain/dtos/auth/register-user.dto"
+import { LoginUserDTO, RegisterUserDTO } from "../../domain/dtos/auth/register-user.dto"
 import { AuthService } from "../services/auth.service"
 import { CustomError } from "../../domain/errors/custom.error"
 
@@ -22,15 +22,31 @@ export class AuthController {
 
             return res.json({ msg: 'Register' , data: {registerDTO , result} })
 
-        } catch (error) {
+        } 
+        catch (error) 
+        {
             this.handleError(error , res)
         }
 
     }
     
-    login = ( req : Request , res : Response ) => {
+    login = async ( req : Request , res : Response ) => {
 
-        return res.json({ msg: 'Login' })
+        try {
+            
+            const [ error , loginUserDTO ] = LoginUserDTO.create(req.body)
+
+            if( error ) return res.status(400).json(error)
+
+            const result = await this.authService.loginUser(loginUserDTO!)
+
+            return res.json({ msg: 'Login' , data: result })
+
+        } 
+        catch (error) 
+        {
+            this.handleError(error , res)
+        }
 
     }
 

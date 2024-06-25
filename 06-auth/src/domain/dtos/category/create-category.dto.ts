@@ -11,16 +11,12 @@ export class CreateCategoryDTO {
 
         if (!name) return ['Missing name']
         
-        if (!available) return ['Missing available']
+        if ( available === undefined ) return ['Missing available']
 
-        if( typeof available !== 'boolean' && available === 'true') 
-        {
-            available = true
-        }
-        else
-        {
-            available = false
-        }
+        console.log('available');
+        console.log(available);
+
+        available = (available === 'true' || available === true)
 
         const instance = new CreateCategoryDTO(name, available);
 

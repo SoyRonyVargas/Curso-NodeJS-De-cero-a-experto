@@ -1,5 +1,4 @@
 import nodemailer, { Transporter } from 'nodemailer';
-import { envs } from '../../config/envs';
 
 export interface SendMailOptions {
   to: string | string[];

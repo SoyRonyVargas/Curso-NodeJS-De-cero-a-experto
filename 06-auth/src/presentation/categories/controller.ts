@@ -1,18 +1,58 @@
 import { Request, Response } from "express"
 import { CustomError } from "../../domain/errors/custom.error"
 import { CreateCategoryDTO } from "../../domain/dtos/category/create-category.dto"
+import { CategoryService } from "../services/category.service"
 
 
 export class CategoryController {
 
-    public create = ( req : Request , res: Response ) => {
+    constructor(
+        private categoryService: CategoryService
+    ){
 
-        const [ error , categoryCreated ] = CreateCategoryDTO.create(req.body)
+    }
 
-        return res.status(200).json({ 
-            error,
-            categoryCreated
-        })
+    public allCategories = async ( _ : Request , res: Response ) => {
+
+        try 
+        {
+            
+            const categories = await this.categoryService.getCategories()   
+
+            return res.json({
+                data: categories
+            })
+
+        } 
+        catch (error) 
+        {
+            return this.handleError(error, res)
+        }
+
+    }
+
+    public create = async ( req : Request , res: Response ) => {
+
+        try 
+        {
+        
+            const [ error , categoryCreated ] = CreateCategoryDTO.create(req.body)
+
+            if( error ) throw CustomError.badRequest(`${error}`)
+
+            const result = await this.
+                categoryService
+                .createCategory( categoryCreated! , req.body.user.id)
+            
+            return res.status(200).json({ 
+                data: result
+            })
+
+        } 
+        catch (error) 
+        {
+            return this.handleError(error, res)
+        }
 
     }
 

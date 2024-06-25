@@ -34,9 +34,9 @@ export class EmailService {
   async sendEmail( options: SendMailOptions ): Promise<boolean> {
 
     const { to, subject, htmlBody, attachements = [] } = options;
-
-
-    try {
+    
+    try 
+    {
 
       const sentInformation = await this.transporter.sendMail( {
         to: to,
@@ -45,10 +45,11 @@ export class EmailService {
         attachments: attachements,
       });
 
-      // console.log( sentInformation );
-
       return true;
-    } catch ( error ) {
+
+    } 
+    catch ( error ) 
+    {
       return false;
     }
 

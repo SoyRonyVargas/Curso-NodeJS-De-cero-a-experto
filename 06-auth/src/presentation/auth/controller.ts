@@ -7,8 +7,25 @@ import { CustomError } from "../../domain/errors/custom.error"
 export class AuthController {
 
     constructor(
-        public readonly authService: AuthService
+        protected readonly authService: AuthService
     ){}
+
+    validateEmail = async ( req : Request , res : Response ) => {
+
+        try 
+        {
+            const { token } = req.params;
+    
+            this.authService.validateEmail( token )
+              .then( () => res.json('Email was validated properly') )
+              .catch( error => this.handleError(error, res) );    
+        }
+        catch (error) 
+        {
+            this.handleError(error , res)
+        }
+
+    }
 
     register = async ( req : Request , res : Response ) => {
 

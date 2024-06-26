@@ -17,14 +17,16 @@ export class ProductService {
             let products = await ProductModel.find()
                 .skip( (page - 1) * limit )
                 .limit( limit )
+                .populate('user')
+                .populate('category')
 
-            let map = products.map( (_) => ({
-                id: _.id,
-                name: _.name,
-                available: _.available
-            }))
+            // let map = products.map( (obj:any) => ({
+            //     id: obj.id,
+            //     // ...obj,
+            //     ...obj._doc
+            // }))
 
-            return map
+            return products
 
         } 
         catch (error) 

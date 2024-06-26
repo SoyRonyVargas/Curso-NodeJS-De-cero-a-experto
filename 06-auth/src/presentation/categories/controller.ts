@@ -2,6 +2,7 @@ import { Request, Response } from "express"
 import { CustomError } from "../../domain/errors/custom.error"
 import { CreateCategoryDTO } from "../../domain/dtos/category/create-category.dto"
 import { CategoryService } from "../services/category.service"
+import { PaginationDTO } from "../../domain/dtos/shared/pagination.dto"
 
 
 export class CategoryController {
@@ -17,6 +18,14 @@ export class CategoryController {
         try 
         {
             
+            const { page = 1 , limit = 10 } = _.query
+
+            const [ error , paginationDTO ] = await PaginationDTO.create( +page , +limit )
+
+            console.log(paginationDTO);
+
+            if( error ) throw CustomError.badRequest('Error de query')
+
             const categories = await this.categoryService.getCategories()   
 
             return res.json({

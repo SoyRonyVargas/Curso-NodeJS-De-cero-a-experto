@@ -26,7 +26,7 @@ export class CategoryController {
 
             if( error ) throw CustomError.badRequest('Error de query')
 
-            const categories = await this.categoryService.getCategories()   
+            const categories = await this.categoryService.getCategories(paginationDTO!)   
 
             return res.json({
                 data: categories

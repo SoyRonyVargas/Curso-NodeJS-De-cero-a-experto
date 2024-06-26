@@ -12,8 +12,8 @@ export class PaginationDTO {
             return ['Page or limit must be a number']
         }
 
-        if( page < 0 ) return ['Page must be greater than 0']
-        if( limit < 0 ) return ['Limit must be greater than 0']
+        if( page <= 0 ) return ['Page must be greater than 0']
+        if( limit <= 0 ) return ['Limit must be greater than 0']
 
         const instance = new PaginationDTO(page , limit)
 
